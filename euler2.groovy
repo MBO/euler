@@ -18,4 +18,4 @@ while (b < max) {
     fibs << b
     (a,b) = [b,a+b]
 }
-println fibs.findAll { it % 2 == 0 }.inject(0) { sum,i -> sum += i }
+println fibs.findAll { it % 2 == 0 }.sum()
