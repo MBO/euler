@@ -10,7 +10,7 @@ def number = 600851475143
 
 def is_prime(n) {
     if (n == 2 || n == 3 || n == 5 || n == 7) return true
-    def sqrt = Math.sqrt(n)
+    def sqrt = Math.sqrt(n).toInteger()
     return (2..sqrt).every { n % it != 0 }
 }
 
