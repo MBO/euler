@@ -22,11 +22,10 @@ def primes(num)
   array
 end
 
-def euler5(max)
-  (2..max).inject(Array.new(max,0)) do |acc,el|
-    acc.zip(primes(el)).collect { |xs| xs[1] ? xs.max : xs[0] }
-  end.zip((1..20).to_a).collect { |xs| xs[1] ** xs[0] }.reduce(:*)
-end
+max = 20
+result = (2..max).inject(Array.new(max,0)) do |acc,el|
+  acc.zip(primes(el)).collect { |xs| xs[1] ? xs.max : xs[0] }
+end.zip((1..20).to_a).collect { |xs| xs[1] ** xs[0] }.reduce(:*)
 
-puts euler5(20).inspect
+puts result
 
