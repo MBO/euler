@@ -7,13 +7,15 @@
 # Find the largest palindrome made from the product of two 3-digit numbers.
 #****************************************************************************
 
-max = 0
-999.downto(100).each do |a|
-  a.downto(100).each do |b|
-    prod = a * b
-    str = (prod).to_s
-    max = [max, prod].max if str == str.reverse
+nums = []
+100.upto(999).each do |a|
+  a.upto(999).each do |b|
+    nums << a * b
   end
 end
 
-puts max
+result = nums.sort.reverse.find do |i|
+  i.to_s == i.to_s.reverse
+end
+
+puts result
