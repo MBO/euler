@@ -41,24 +41,23 @@ File.open(infile, "rt:ascii") do |file|
 end
 
 directions = [
-  [0,1],
-  [1,0],
-  [1,1],
-  [-1,1]
+  [0,1], # down == up
+  [1,0], # right == left
+  [1,1], # down-right == up-left
+  [-1,1] # up-right == dowl-left
 ]
 max = 0
 0.upto(19).each do |y|
   0.upto(19).each do |x|
     directions.each do |d|
-      values = [
-        (m[ y + 0*d[0] ][ x + 0*d[1] ] rescue 0),
-        (m[ y + 1*d[0] ][ x + 1*d[1] ] rescue 0),
-        (m[ y + 2*d[0] ][ x + 2*d[1] ] rescue 0),
-        (m[ y + 3*d[0] ][ x + 3*d[1] ] rescue 0)
-      ]
+      begin
+        values = (0..3).map { |i| m[ y + i*d[0] ][ x + i*d[1] ] }
 
-      actual = values.inject(:*) rescue 0
-      max = [max,actual].max
+        actual = values.inject(:*)
+        max = [max,actual].max
+      rescue # for :[] on nil instead of array or :* on nil
+        # that way I don't need guard values (zeros) on edges of matrix
+      end
     end
   end
 end
