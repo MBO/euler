@@ -10,16 +10,7 @@
 # exceed four million.
 #****************************************************************************
 
-class Fibs
-  include Enumerable
-  def each
-    a,b = 1,1
-    loop do
-      yield b
-      a,b = b,a+b
-    end
-  end
-end
+require "lib"
 
 fibs = Fibs.new
 result = fibs.take_while { |i| i < 4_000_000 }.find_all { |i| i.even? }.reduce(:+)

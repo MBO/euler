@@ -8,24 +8,24 @@
 # from 1 to 20?
 #***************************************************************************
 
-def primes(num)
-  sqrt = Math.sqrt(num).floor
-  array = Array.new(num,0)
-  (2..sqrt).each do |i|
-    while num % i == 0
-      num /= i
-      array[i-1] += 1
-    end
-  end
-  array[1-1] = 1
-  array[num-1] = 1
-  array
-end
+require "lib"
 
 max = 20
-result = (2..max).inject(Array.new(max,0)) do |acc,el|
-  acc.zip(primes(el)).collect { |xs| xs[1] ? xs.max : xs[0] }
-end.zip((1..20).to_a).collect { |xs| xs[1] ** xs[0] }.reduce(:*)
 
+divisors = []
+2.upto(max).each do |i|
+  divisors[i] = factorize(i)
+end
+
+max_divisors = Hash.new(0)
+divisors.each do |divs|
+  next unless divs
+  divs.each do |k,v|
+    max_divisors[k] = [max_divisors[k],v].max
+  end
+end
+
+result = max_divisors.map do |k,v|
+  k**v
+end.inject(:*)
 puts result
-
