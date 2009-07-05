@@ -14,5 +14,9 @@ def prime?(n)
 end
 
 sqrt = Math.sqrt(num).to_i
-puts (2..sqrt).to_a.reverse.find { |i| (num % i == 0) && prime?(i) }
+result = (2..sqrt).to_a.reverse.find do |i|
+  (num % i == 0) && prime?(i)
+end
+
+puts result
 

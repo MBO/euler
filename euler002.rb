@@ -20,6 +20,9 @@ class Fibs
     end
   end
 end
+
 fibs = Fibs.new
-puts fibs.take_while { |i| i < 4_000_000 }.find_all { |i| i.even? }.reduce(:+)
+result = fibs.take_while { |i| i < 4_000_000 }.find_all { |i| i.even? }.reduce(:+)
+
+puts result
 
