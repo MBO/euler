@@ -139,3 +139,32 @@ def fraction(num)
 
   str
 end
+
+# used in euler028-1.rb
+class SpiralGen
+  include Enumerable
+
+  def each
+    x,y = 0,0 # position relatively to center
+    i = 0 # number of moves done in direction
+    num = 1 # number of moves to be done in direction
+    dir = 1 # direction of moves, 1 - move right then down, -1 - move left, the up
+    yield [0,0]
+    loop do
+      if i < num # make step in direction
+        x += dir
+      else
+        y += dir
+      end
+
+      i += 1 # add step to counter
+      if i == num*2 # if done enough steps
+        dir = 0 - dir # change direction
+        num += 1 # increment max step counter in direction
+        i = 0 # and reset step counter
+      end
+
+      yield [x,y]
+    end
+  end
+end
