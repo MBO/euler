@@ -82,6 +82,23 @@ def factorize(num)
   divisors
 end
 
+# used in euler021.rb
+def divisors(num)
+  factors = factorize(num)
+  divisors = factors.map { |k,v| v.times.map{k} }.flatten
+  combined_divisors = []
+  divisors.length.downto(1).each do |i|
+    combined_divisors += divisors.combination(i).to_a
+  end
+  combined_divisors.map!{|t| t.inject{|ac,el|ac*el}}
+  combined_divisors.uniq.sort[0..-2]
+end
+
+# used in euler023.rb
+def abundant?(num)
+  divisors(num).inject(0){|ac,el|ac+el} > num
+end
+
 # used in euler012
 def divisors_count(num)
   sqrt = Math.sqrt(num).to_i
@@ -97,3 +114,28 @@ def divisors_count(num)
   divisors.empty? ? 2 : divisors.inject(1) { |acc,el| acc * (el+1) }
 end
 
+# used in euler026
+def fraction(num)
+  digits = [] # rests from divisions, for cycle detection
+  fracts = [] # fraction numbers, for decima representation
+  r = 1 # digit we divide, will be rest from division in next iteratins
+  while !digits.member?(r) # while not yet cycle detected
+    digits << r
+    q,r = r.divmod(num)
+    fracts << q
+    break if r == 0
+    r *= 10 # add next '0' to the right side
+  end
+
+  str = fracts[0].to_s
+  if fracts.length > 1
+    str += "."
+    (1...fracts.length).each do |i|
+      str += "(" if digits[i] == r
+      str += fracts[i].to_s
+    end
+    str += ")" if r != 0
+  end
+
+  str
+end
