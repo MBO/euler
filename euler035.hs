@@ -11,7 +11,9 @@
 
 module Main where
 
-import Data.Char (digitToInt)
+import Data.Char
+import Data.List
+import Data.Function
 
 primes =  2 : [ x | x <- [ 3, 5 .. ], not . isComposite $ x ]
     where isComposite n = any (\p -> n `mod` p == 0) . factorsFor $ n
@@ -21,8 +23,12 @@ rotate [] _ = []
 rotate xs 0 = xs
 rotate (x:xs) (n+1) = rotate (xs ++ [x]) n
 
-main = print . length . filter (isCircular) $ primesList
-    where primesList = takeWhile (< 10^6) primes
-          isCircular = all isPrime . rotations
-          isPrime n = n `elem` primesList  
-          rotations x = take (length (show x)) $ map (\n -> read (rotate (show x) n) :: Integer) [ 0 .. ]
+rotations x = take (length . show $ x) $ map (\n -> read (rotate (show x) n) :: Integer) [ 0 .. ]
+
+primesList = groupBy ((==) `on` (length . show)) $ takeWhile (< 10^6) primes
+
+circularPrimes = map (\ps -> filter (f ps) ps) primesList
+    where f ps p = (all (\r -> r >= p) (rs p)) && (all (\r -> r `elem` ps) (rs p))
+          rs p = rotations p
+
+main = print . length $ foldl1 (union) $ map (rotations) $ concat circularPrimes
