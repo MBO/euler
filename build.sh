@@ -3,9 +3,9 @@ set -x
 set -e
 
 cd java/
-rm *.class
+rm *.class || true
 javac *.java
 cd ../scala/
-rm *.class
+rm *.class || true
 scalac *.scala
 cd ..

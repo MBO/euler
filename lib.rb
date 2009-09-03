@@ -96,7 +96,15 @@ end
 
 # used in euler023.rb
 def abundant?(num)
-  divisors(num).inject(0){|ac,el|ac+el} > num
+  divisors(num).reduce(:+) > num
+end
+
+# used in euler042.rb
+def triangle?(num)
+  sqrt = Math.sqrt(num * 2)
+  a = sqrt.floor
+  b = a+1
+  (a*b)/2 == num
 end
 
 # used in euler012
